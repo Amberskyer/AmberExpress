@@ -7,11 +7,24 @@
   },
   "dependencies": {
     "body-parser": "~1.18.2",
+    "cheerio": "^1.0.0-rc.2",
     "cookie-parser": "~1.4.3",
+    "curl": "^0.1.4",
     "debug": "~2.6.9",
     "ejs": "~2.5.7",
     "express": "~4.15.5",
+    "fs": "0.0.1-security",
+    "jade": "~1.11.0",
+    "jsdom": "^12.0.0",
     "morgan": "~1.9.0",
-    "serve-favicon": "~2.4.5"
+    "mysql": "^2.15.0",
+    "mysql2": "^1.5.3",
+    "sequelize": "^4.38.0",
+    "serve-favicon": "~2.4.5",
+    "superagent": "^3.8.3",
+    "superagent-proxy": "^2.0.0",
+    "url": "^0.11.0",
+    "util": "^0.11.1",
+    "utils": "^0.3.1"
   }
 }
