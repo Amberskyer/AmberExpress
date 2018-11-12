@@ -1,8 +1,7 @@
 var express = require("express");
 var api = express.Router();
 
-var user = require("./routes/v1/user.js");
-
+var user = require("./v2/user.js");
 
 api.use("/user", user);
 

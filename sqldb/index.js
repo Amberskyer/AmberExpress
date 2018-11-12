@@ -16,6 +16,7 @@ var db = {
 };
 //用户数据库
 db.User = db.youzy.import('../model/user.js');
+db.PFractionDLC = db.youzy.import('../model/pfractionDLC.js');
 db.NewPlan = db.youzy.import('../model/newplan.js');
 db.School = db.youzy.import('../model/school.js');
 db.PFractionData = db.youzy.import('../model/pfractionData.js');

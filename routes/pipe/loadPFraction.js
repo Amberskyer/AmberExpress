@@ -156,14 +156,6 @@ initHtml()
 async function initHtml() {
 
 
-    sqldb.PFractionData.findAndCountAll({
-        'where': {
-            'dataFromId': 4
-        },
-        'limit': 1
-    })
-
-
     try {
 
         var result = await sqldb.User.findAndCountAll({
@@ -236,7 +228,7 @@ async function initHtml() {
                         transaction: t
                     }).then(result => {
                     console.log("成功创建")
-                    console.log(result)
+                    // console.log(result)
                 })
             }).then(result => {
                 // Transaction 会自动提交
@@ -249,12 +241,12 @@ async function initHtml() {
                         id: dataFromId
                     }
                 }).then(result => {
-                    console.log("成功创建")
-                    console.log(result)
+
+                    initHtml()
+                    console.log("更新状态成功")
                 })
 
-                initHtml()
-                console.log("ok")
+                console.log("事务完成")
             })
 
         }
@@ -269,3 +261,64 @@ async function initHtml() {
         console.log("发生错误：" + error);
     }
 }
+
+// async function resetIsHave() {
+//
+//
+//
+//
+//
+//     try {
+//         let pfList = []
+//         var result = await sqldb.User.findAndCountAll({
+//             'where': {
+//                 'isHave': 4
+//             },
+//             'limit': 1
+//         })
+//
+//         for (let i = 0; i < result.rows.length; i++) {
+//
+//             let idList = []
+//
+//             pfList.push(pfItem)
+//
+//         }
+//
+//         sqldb.youzy.transaction(function (t) {
+//             return sqldb.PFractionData.bulkCreate(
+//                 pfList, {
+//                     transaction: t
+//                 }).then(result => {
+//                 console.log("成功创建")
+//                 // console.log(result)
+//             })
+//         }).then(result => {
+//             // Transaction 会自动提交
+//             // result 是事务回调中使用promise链中执行结果
+//             // console.log(result.length)
+//             sqldb.User.update({
+//                 isHave: 6,
+//             }, {
+//                 where: {
+//                     id: dataFromId
+//                 }
+//             }).then(result => {
+//
+//                 initHtml()
+//                 console.log("更新状态成功")
+//             })
+//
+//             console.log("事务完成")
+//         })
+//
+//
+//     } catch (error) {
+//         // urlCount++
+//         // if (urlCount == 10) {
+//         //     initHtml()
+//         // }
+//         initHtml()
+//         console.log("发生错误：" + error);
+//     }
+// }

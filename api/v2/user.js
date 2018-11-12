@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var sqldb = require('../../sqldb');
+var sqldb = require('../../sqldb/index');
 
 router.get("/list", function (req, res) {
     return sqldb.youzy.transaction(function (t) {

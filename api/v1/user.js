@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var sqldb = require('../../sqldb');
+var sqldb = require('../../sqldb/index');
 var superagent = require('superagent');
 
 router.get("/list/:schoolId/:provId", function (req, res) {
