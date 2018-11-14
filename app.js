@@ -59,18 +59,10 @@ app.use("/api//v2", apiVersion2);
 
 /**
  * 路由配置
-*/
+ */
 var routes = require('./routes/routes');
-var users = require('./routes/users');
 
 app.use('/', routes); // 即为为路径 /login 设置路由
-// app.use('/register', routes); // 即为为路径 /register 设置路由
-// app.use('/home', routes); // 即为为路径 /home 设置路由
-// app.use("/logout", routes); // 即为为路径 /logout 设置路由
-// app.use('/', index);
-// app.use('/users', users);
-
-
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

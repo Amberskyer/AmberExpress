@@ -248,7 +248,8 @@ async function loadHtml() {
             console.log("+++++++++++++++++++");
             return sqldb.PFractionDLC.findAndCountAll({
                 where: {
-                    isHave: 0
+                    isHave: 0,
+                    // id:20
                 },
                 limit: 4
             }, {
@@ -273,7 +274,7 @@ async function loadHtml() {
 
             superagent.get(url)
                 .set('Content-Type', 'application/json;charset=UTF-8')
-                .set('Cookie', 'Youzy.FirstSelectVersion=1; Youzy.CurrentVersion=%7b%22Name%22%3a%22%e6%b9%96%e5%8c%97%22%2c%22EnName%22%3a%22hubei%22%2c%22ProvinceId%22%3a849%2c%22Domain%22%3a%22http%3a%2f%2fhubei.youzy.cn%22%2c%22Description%22%3a%22%22%2c%22QQGroup%22%3a%22428487411%22%2c%22QQGroupUrl%22%3anull%2c%22IsOpen%22%3atrue%2c%22Sort%22%3a12%2c%22Province%22%3a%7b%22Name%22%3a%22%e6%b9%96%e5%8c%97%22%2c%22Id%22%3a849%7d%2c%22Id%22%3a11%7d; SERVER_ID=de45f6c7-fdfa7b65; Uzy.AUTH=BD482217F9BE650E7661B0E2FAE4C7926700A5939D039D9B90911015111573378B5E10113400C70F14124EA05D599DBA304DF95FA2E2CB4BA9FF11D296C14690F93479D8FA11B6EDEC73C1BA28B0607CFC77C12059B5D07D9DB011791C1DD9CE20F03F745AFCC889CD71CE5106BCC9405E95292C458F19E72AA7A7D36126C27A')
+                .set('Cookie', 'Youzy.CurrentVersion=%7b%22Name%22%3a%22%e6%b9%96%e5%8c%97%22%2c%22EnName%22%3a%22hubei%22%2c%22ProvinceId%22%3a849%2c%22Domain%22%3a%22http%3a%2f%2fhubei.youzy.cn%22%2c%22Description%22%3a%22%22%2c%22QQGroup%22%3a%22428487411%22%2c%22QQGroupUrl%22%3anull%2c%22IsOpen%22%3atrue%2c%22Sort%22%3a12%2c%22Province%22%3a%7b%22Name%22%3a%22%e6%b9%96%e5%8c%97%22%2c%22Id%22%3a849%7d%2c%22Id%22%3a11%7d; SERVER_ID=de45f6c7-2cb4728a; Youzy.FirstSelectVersion=1; Uzy.AUTH=D5A924865B70BDF9D0141611EFD5D68C24330525A43EF3064698845DB513AB8B69E8B03EC87027D89A8B306347B20FCA23EB6495AD5B40E07B0798181C3A9E55E1B679394E95DF6960DCF323217B186BC0F5C4748FF2444E9AA53F72EFEEA7654900FEDCC5A83F11729191C755123630D7ABE44BB7C6F1228817722C8A31B2CC')
                 .timeout({
                     response: 5000,  // Wait 5 seconds for the server to start sending,
                     deadline: 60000, // but allow 1 minute for the file to finish loading.
@@ -288,7 +289,7 @@ async function loadHtml() {
                         let wrongArea = $(".f24")
                         let notFound = $(".index-home-fillin")
                         let haveGhost = $(".bg")
-                        let notLogin = $(".novip-colleges-plan")
+                        let notLogin = $(".novip")
                         // 有table，有数据
                         if (pdfList.length > 0) {
 
@@ -323,7 +324,7 @@ async function loadHtml() {
 
                             sqldb.PFractionDLC.update({
                                 isHave: 10,
-                                htmlData: res.text
+                                htmlData: "无数据"
                             }, {
                                 where: {
                                     id: dataFromId
@@ -352,6 +353,9 @@ async function loadHtml() {
                         }
                         //404，跳转到主页
                         else if (pdfList.length <= 0 && wrongArea.length <= 0 && notFound.length > 0 && haveGhost.length <= 0 && notLogin.length <= 0) {// 写入文件
+
+                            // console.log(notFound.length)
+                            // console.log(haveGhost.length)
 
                             sqldb.PFractionDLC.update({
                                 isHave: 20,

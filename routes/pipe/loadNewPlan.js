@@ -212,10 +212,8 @@ async function loadHtml() {
             console.log("+++++++++++++++++++");
             return sqldb.NewPlan.findAndCountAll({
                 where: {
-                    // id: {
-                    //     $gt: 30000
-                    // },
-                    isHave: 0
+                    isHave: 5,
+                    // id: 13,
                 },
                 limit: 4
             }, {
@@ -233,12 +231,15 @@ async function loadHtml() {
             let provId = result.rows[i].provId
 
 
+            let thisIsHave = result.rows[i].isHave
+
+
             let url = "https://www.youzy.cn/college/" + schoolId + "/newplan.html"
 
             superagent.get(url)
                 .set('Content-Type', 'application/json;charset=UTF-8')
-                .set('Cookie', 'Youzy.FirstSelectVersion=1; Youzy.CurrentVersion=%7b%22Name%22%3a%22%e6%b9%96%e5%8c%97%22%2c%22EnName%22%3a%22hubei%22%2c%22ProvinceId%22%3a' +
-                    provId + '%2c%22Domain%22%3a%22http%3a%2f%2fhubei.youzy.cn%22%2c%22Description%22%3a%22%22%2c%22QQGroup%22%3a%22428487411%22%2c%22QQGroupUrl%22%3anull%2c%22IsOpen%22%3atrue%2c%22Sort%22%3a12%2c%22Province%22%3a%7b%22Name%22%3a%22%e6%b9%96%e5%8c%97%22%2c%22Id%22%3a849%7d%2c%22Id%22%3a11%7d; SERVER_ID=de45f6c7-fdfa7b65; Uzy.AUTH=BD482217F9BE650E7661B0E2FAE4C7926700A5939D039D9B90911015111573378B5E10113400C70F14124EA05D599DBA304DF95FA2E2CB4BA9FF11D296C14690F93479D8FA11B6EDEC73C1BA28B0607CFC77C12059B5D07D9DB011791C1DD9CE20F03F745AFCC889CD71CE5106BCC9405E95292C458F19E72AA7A7D36126C27A')
+                .set('Cookie', 'Youzy.CurrentVersion=%7b%22Name%22%3a%22%e6%b9%96%e5%8c%97%22%2c%22EnName%22%3a%22hubei%22%2c%22ProvinceId%22%3a'+
+                    provId+'%2c%22Domain%22%3a%22http%3a%2f%2fhubei.youzy.cn%22%2c%22Description%22%3a%22%22%2c%22QQGroup%22%3a%22428487411%22%2c%22QQGroupUrl%22%3anull%2c%22IsOpen%22%3atrue%2c%22Sort%22%3a12%2c%22Province%22%3a%7b%22Name%22%3a%22%e6%b9%96%e5%8c%97%22%2c%22Id%22%3a849%7d%2c%22Id%22%3a11%7d; SERVER_ID=de45f6c7-2cb4728a; Youzy.FirstSelectVersion=1; Uzy.AUTH=D5A924865B70BDF9D0141611EFD5D68C24330525A43EF3064698845DB513AB8B69E8B03EC87027D89A8B306347B20FCA23EB6495AD5B40E07B0798181C3A9E55E1B679394E95DF6960DCF323217B186BC0F5C4748FF2444E9AA53F72EFEEA7654900FEDCC5A83F11729191C755123630D7ABE44BB7C6F1228817722C8A31B2CC')
                 .timeout({
                     response: 5000,  // Wait 5 seconds for the server to start sending,
                     deadline: 60000, // but allow 1 minute for the file to finish loading.
@@ -253,12 +254,14 @@ async function loadHtml() {
                         let wrongArea = $(".f24")
                         let notFound = $(".index-home-fillin")
                         let haveGhost = $(".bg")
-                        let notLogin = $(".novip-colleges-plan")
-                        // 有table，有数据
+                        let notLogin = $(".novip")
+                        // 有table，有数据 isHave为4
                         if (pdfList.length > 0) {
 
+
                             sqldb.NewPlan.update({
-                                isHave: 40,
+                                isHave: 4,
+                                isChecked: 1,
                                 htmlData: res.text
                             }, {
                                 where: {
@@ -282,7 +285,7 @@ async function loadHtml() {
                             });
 
                         }
-                        //有table，无数据
+                        //有table，无数据 isHave为10
                         else if (pdfList.length <= 0 && wrongArea.length > 0 && notFound.length <= 0 && haveGhost.length <= 0 && notLogin.length <= 0) {// 写入文件
 
                             sqldb.NewPlan.update({
@@ -300,7 +303,7 @@ async function loadHtml() {
                                     ;
                                     loadHtml();
                                 }
-                                console.log(url)
+                                console.log(url + "   " + provId)
                                 console.log("id为   " + dataFromId + "urlCount为   " + urlCount + '   无数据，isHave重置为10');
                                 // console.log(result);
                                 // res.send(result)
@@ -314,11 +317,11 @@ async function loadHtml() {
                             });
 
                         }
-                        //404，跳转到主页
+                        //404，跳转到主页 香港 西藏 澳门  isHave为20
                         else if (pdfList.length <= 0 && wrongArea.length <= 0 && notFound.length > 0 && haveGhost.length <= 0 && notLogin.length <= 0) {// 写入文件
 
                             sqldb.NewPlan.update({
-                                isHave: 20,
+                                isHave: 200,
                                 htmlData: "跳转到主页啦啦啦啦"
                             }, {
                                 where: {
@@ -332,7 +335,7 @@ async function loadHtml() {
                                     ;
                                     loadHtml();
                                 }
-                                console.log(url)
+                                console.log(url + "   " + provId)
                                 console.log("id为   " + dataFromId + "urlCount为   " + urlCount + '   不存在，isHave重置为20');
                                 // console.log(result);
                                 // res.send(result)
@@ -346,7 +349,7 @@ async function loadHtml() {
                             });
 
                         }
-                        //湖北省，因数据整理，系统正在维护中
+                        //湖北省，因数据整理，系统正在维护中 isHave为30
                         else if (pdfList.length <= 0 && notFound.length <= 0 && wrongArea.length <= 0 && haveGhost.length > 0 && notLogin.length <= 0) {// 写入文件
 
                             sqldb.NewPlan.update({
@@ -365,7 +368,7 @@ async function loadHtml() {
                                     loadHtml();
                                 }
                                 console.log(url)
-                                console.log("id为   " + dataFromId + "urlCount为   " + urlCount + '   不存在，isHave重置为30');
+                                console.log("id为   " + dataFromId + "urlCount为   " + urlCount + '   不存在，isHave重置为300');
                                 // console.log(result);
                                 // res.send(result)
                             }).catch(function (err) {
@@ -390,7 +393,7 @@ async function loadHtml() {
                         else if (pdfList.length <= 0 && notFound.length <= 0 && wrongArea.length <= 0 && haveGhost.length <= 0 && notLogin.length <= 0) {
 
                             sqldb.NewPlan.update({
-                                isHave: 5,
+                                isHave: 50,
                             }, {
                                 where: {
                                     id: dataFromId
@@ -402,6 +405,7 @@ async function loadHtml() {
                                 if (urlCount == 4) {
                                     loadHtml();
                                 }
+                                console.log(url + "   " + provId)
                                 console.log("学校id为   " + schoolId + "   省份id为   " + provId)
                                 console.log("id为   " + dataFromId + "urlCount为   " + urlCount + '   获取但未显示不招生，isHave重置为5');
                                 // console.log(result);
